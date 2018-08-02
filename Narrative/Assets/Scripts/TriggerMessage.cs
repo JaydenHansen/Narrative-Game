@@ -1,27 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(TriggerDisplay))]
 public class TriggerMessage : MonoBehaviour {
 
-    public GameObject text;
+    public Text text;
 
     private void Start()
     {
-        text.SetActive(false);
+        text.canvasRenderer.SetAlpha(0.0f);
+        Invoke("FadeInText", 2);
     }
     //Runs when the player moves into this trigger
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
            //Checks if the tag of the object that enters is "Player"
         if (other.tag == "Player")
         {
-            text.SetActive (true) ; 
-        }
-        else
+            text.CrossFadeAlpha(1.0f, 3, true);
+        }      
+    }
+    void OnTriggerExit(Collider other)
+    {
+        //Checks if the tag of the object that enters is "Player"
+        if (other.tag == "Player")
         {
-            text.SetActive(false);
+            text.CrossFadeAlpha(0, 1, false);
         }
     }
 
